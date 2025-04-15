@@ -1,0 +1,14 @@
+---
+:id: 215679630
+:submitters:
+- :name: NATALIE WILKINS
+  :email: u1303426@utah.edu
+- :name: NEERAJA VASA
+  :email: u1419394@utah.edu
+:created_at: !ruby/object:ActiveSupport::TimeWithZone
+  utc: 2023-11-28 04:19:21.252502000 Z
+  zone: !ruby/object:ActiveSupport::TimeZone
+    name: America/Los_Angeles
+  time: 2023-11-27 20:19:21.252502000 Z
+:status: processed
+:score: 138.0
