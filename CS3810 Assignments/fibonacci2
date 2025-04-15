@@ -1,0 +1,73 @@
+.data
+    prompt: .asciiz "Enter the term of Fibonacci sequence to calculate: "
+    result: .asciiz "The Fibonacci sequence term is: "
+    newline: .asciiz "\n"
+    
+.text
+    # Print prompt and read input
+    li $v0, 4
+    la $a0, prompt
+    syscall
+    
+    li $v0, 5
+    syscall
+    move $s0, $v0  # $s0 will store the input term
+    
+    # Call the Fibonacci function
+    move $a0, $s0
+    jal fibonacci
+    
+    # Print the result
+    li $v0, 4
+    la $a0, result
+    syscall
+    
+    move $a0, $v0  # Move the result from $v0 to $a0 for printing
+    li $v0, 1
+    syscall
+    
+    # Print newline
+    li $v0, 4
+    la $a0, newline
+    syscall
+    
+    # Exit the program
+    li $v0, 10
+    syscall
+
+# Recursive Fibonacci function
+# Input: $a0 (n) - the term of the Fibonacci sequence to compute
+# Output: $v0 - the value of the Fibonacci sequence at term n
+fibonacci:
+    # Base cases for Fibonacci
+    li $t0, 0
+    beq $a0, $t0, base_case_0
+    li $t0, 1
+    beq $a0, $t0, base_case_1
+
+    # Recursive calls for Fibonacci
+    addi $sp, $sp, -8  # Allocate space on the stack for 2 saved registers
+    sw $ra, 0($sp)     # Save the return address
+    addi $a0, $a0, -1  # Compute fib(n-1)
+    jal fibonacci
+    move $s1, $v0      # Save the result of fib(n-1)
+    lw $ra, 0($sp)     # Restore the return address
+    addi $sp, $sp, 8   # Restore the stack pointer
+    addi $sp, $sp, -8  # Allocate space on the stack for 2 saved registers
+    sw $ra, 0($sp)     # Save the return address
+    addi $a0, $a0, -2  # Compute fib(n-2)
+    jal fibonacci
+    lw $ra, 0($sp)     # Restore the return address
+    addi $sp, $sp, 8   # Restore the stack pointer
+
+    add $v0, $s1, $v0  # Return fib(n-1) + fib(n-2)
+    jr $ra             # Return to the caller
+
+# Base cases for Fibonacci
+base_case_0:
+    li $v0, 0  # fib(0) = 0
+    jr $ra     # Return to the caller
+
+base_case_1:
+    li $v0, 1  # fib(1) = 1
+    jr $ra     # Return to the caller
