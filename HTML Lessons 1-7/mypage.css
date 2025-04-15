@@ -1,0 +1,10 @@
+#main
+{width: 70%; max-width: 840px; min-width: 550px;}
+
+body {
+    width:70%; 
+    max-width: 840px;
+    min-width: 550px;
+    margin-left: auto;
+    margin-right: auto;
+}
